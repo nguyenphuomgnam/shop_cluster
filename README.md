@@ -54,23 +54,23 @@ Chúng tôi xây dựng một **End-to-End Pipeline** khép kín gồm 4 giai đ
 
 ```mermaid
 graph TD
-    subgraph Phase 1: Mining [Khai Phá Luật]
-    A[Raw Data UK] -->|Cleaning| B(Transactions)
-    B -->|FP-Growth| C{Luật Kết Hợp}
+    subgraph P1 [Phase 1: Khai Phá Luật]
+        A[Raw Data UK] -->|Cleaning| B(Transactions)
+        B -->|FP-Growth| C{Luật Kết Hợp}
     end
 
-    subgraph Phase 2: Features [Trích Xuất Đặc Trưng]
-    C -->|Filter Top-K| D[Luật Chất Lượng Cao]
-    D -->|Weighted Encoding| E[Ma Trận Đặc Trưng X]
+    subgraph P2 [Phase 2: Trích Xuất Đặc Trưng]
+        C -->|Filter Top-K| D[Luật Chất Lượng Cao]
+        D -->|Weighted Encoding| E[Ma Trận Đặc Trưng X]
     end
 
-    subgraph Phase 3: Clustering [Phân Cụm]
-    E -->|Model Selection| F{So Sánh Mô Hình}
-    F -->|K-Means| G[Các Nhóm Khách Hàng]
+    subgraph P3 [Phase 3: Phân Cụm]
+        E -->|Model Selection| F{So Sánh Mô Hình}
+        F -->|K-Means| G[Các Nhóm Khách Hàng]
     end
 
-    subgraph Phase 4: Action [Chiến Lược]
-    G -->|Profiling| H[Insight & Dashboard]
+    subgraph P4 [Phase 4: Chiến Lược]
+        G -->|Profiling| H[Insight & Dashboard]
     end
 ```
 Chi tiết các bước thực hiện:
