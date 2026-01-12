@@ -1,231 +1,253 @@
-# 📦 PROJECT: HYBRID CUSTOMER SEGMENTATION PIPELINE
-> **Chủ đề:** Giải mã "ADN Mua Sắm" - Kết hợp Luật Kết Hợp (Association Rules) & Phân Cụm (Clustering) để tối ưu chiến lược Cross-sell.
+# 🛒 PROJECT: GIẢI MÃ "MỎ VÀNG" BÁN LẺ (RETAIL ANALYTICS)
+> **Chủ đề:** Từ thấu hiểu hành vi (Apriori) đến tối ưu hóa lợi nhuận thực tế (High-Utility Mining).
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Data Mining](https://img.shields.io/badge/Focus-Data_Mining-orange?style=for-the-badge)](https://scikit-learn.org/)
-[![Streamlit](https://img.shields.io/badge/App-Streamlit_Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![Data Mining](https://img.shields.io/badge/Focus-Association_Rules-orange?style=for-the-badge)](https://rasbt.github.io/mlxtend/)
+[![Performance](https://img.shields.io/badge/Algo-FP_Growth-green?style=for-the-badge)]()
 [![Status](https://img.shields.io/badge/Status-Completed_Excellent-success?style=for-the-badge)]()
 
 ---
 
 ## 👥 ĐỘI NGŨ THỰC HIỆN: [TAM ĐẠI QUỶ VƯƠNG]
 
-| Thành viên | Vai trò (Role) | Trách nhiệm chính (Responsibilities) |
+| Thành viên | Vai trò | Nhiệm vụ chính (Key Responsibilities) |
 | :--- | :--- | :--- |
-| **Nguyễn Phương Nam** | **Data Engineer** | Xây dựng Pipeline, Tiền xử lý dữ liệu (Preprocessing), Tinh chỉnh tham số FP-Growth. |
-| **Trần Mạnh Tiến** | **Data Scientist** | Feature Engineering (Trích xuất đặc trưng), Huấn luyện mô hình (K-Means/DBSCAN), Đánh giá mô hình. |
-| **Phạm Văn Huy** | **Business Analyst** | Storytelling, Trực quan hóa dữ liệu (Visualization), Xây dựng Dashboard & Chiến lược kinh doanh. |
+| **Nguyễn Phương Nam** | **Leader / Data Engineer** | Quản lý Pipeline, Triển khai High-Utility Mining, Tối ưu hóa thuật toán FP-Growth. |
+| **Phạm Văn Huy** | **Data Analyst** | Data Cleaning (Lọc nhiễu), Benchmarking (So sánh hiệu năng Apriori vs FP-Growth). |
+| **Trần Mạnh Tiến** | **Business Analyst** | Visualization (Trực quan hóa), Storytelling & Đề xuất chiến lược kinh doanh (Business Insights). |
 
 ---
 
-## 1. 📖 TỔNG QUAN & MỤC TIÊU (PROJECT OVERVIEW)
+## 1. 📖 CÂU CHUYỆN DỮ LIỆU (THE DATA STORY)
 
-### 1.1. Đặt vấn đề: Khi "Trái Tim Gỗ" và "Ngôi Sao" là định mệnh
-Trong bán lẻ hiện đại, việc hiểu khách hàng qua nhân khẩu học (tuổi, giới tính) hay RFM (tiền nong) là chưa đủ. Chúng ta cần hiểu **"Họ mua cái gì cùng nhau?"**.
+### 1.1. Khi "Trực Giác" Đánh Lừa Chúng Ta
+Nếu hỏi một chủ tiệm tạp hóa: *"Mặt hàng nào quan trọng nhất?"*, họ sẽ chỉ ngay vào gói mì tôm hoặc chai nước suối. Lý do? Vì nó **bán chạy** (Frequency).
 
-> **Feynman Style - Giải thích cho "Bà Ngoại" nghe:**
-> Hãy tưởng tượng hệ thống này giống như một **người quản lý siêu thị có trí nhớ siêu phàm**. Thay vì đoán mò, ông ta ghi nhớ hàng triệu hóa đơn để tìm ra quy luật:
-> *"Cứ hễ ai mua 'Trái Tim Gỗ' thì 80% sẽ mua thêm 'Ngôi Sao Gỗ'."*
->
-> Tuy nhiên, biết luật thôi chưa đủ. Ông ta còn muốn biết **"Ai là người hay mua theo luật này?"**.
-> - Có người chỉ mua Trái Tim Gỗ (Khách vãng lai).
-> - Có người luôn mua cả Tim + Sao + Nến (Khách "nghiện" sưu tập).
->
-> **👉 Sứ mệnh:** Dự án này không chỉ tìm ra các cặp đôi sản phẩm, mà còn dùng chính các cặp đôi đó để phân loại khách hàng, từ đó bán đúng cái họ cần.
+Tuy nhiên, dữ liệu thực tế tại thị trường UK (Online Retail Dataset) đã chứng minh một sự thật khác:
+* Bán 10.000 gói mì (Lãi 200đ) $\rightarrow$ Tổng lãi 2 triệu.
+* Bán 5 set quà Tết (Lãi 500k) $\rightarrow$ Tổng lãi 2.5 triệu.
 
-### 1.2. Khung Năng Lực & Mục Tiêu Đào Tạo (Learning Objectives)
-Dự án này được thiết kế để sinh viên (và người đọc) đạt được các cột mốc kiến thức sau:
+👉 **Mục tiêu dự án:** Chúng tôi không chỉ dừng lại ở việc tìm ra sản phẩm bán chạy (Lab 1), mà còn đi sâu tìm kiếm những "Mỏ vàng ẩn giấu" mang lại lợi nhuận cao nhất (Lab 2), nơi mà các thuật toán truyền thống thường bỏ qua.
 
-**🧠 Kiến thức (Knowledge):**
-1.  **Hiểu quy trình Hybrid:** Nắm vững cách kết hợp giữa *Khai phá luật (Unsupervised)* và *Phân cụm (Clustering)*.
-2.  **Feature Engineering:** Học cách chuyển đổi dữ liệu dạng giao dịch (Transaction) sang dạng vector đặc trưng (Feature Vector) để máy học hiểu được.
-3.  **Model Evaluation:** Hiểu cách dùng các chỉ số định lượng (Silhouette, Elbow) để đánh giá chất lượng phân cụm thay vì cảm tính.
+### 1.2. Giải thích Thuật toán (Feynman Style)
+Để hiểu cách chúng tôi "đãi cát tìm vàng", hãy tưởng tượng thuật toán giống như một **người quản lý siêu thị có trí nhớ siêu phàm**.
 
-**🛠️ Kỹ năng (Skills):**
-1.  **Trích xuất đặc trưng (Feature Extraction):** Xây dựng ma trận đặc trưng từ luật kết hợp (Lift-based weighting).
-2.  **Phân cụm nâng cao:** Áp dụng và so sánh các thuật toán KMeans, Agglomerative, DBSCAN.
-3.  **Business Intelligence:** Diễn giải các con số khô khan thành chiến lược hành động (Actionable Insights).
+Ông ta ghi nhớ hàng triệu hóa đơn để trả lời 3 câu hỏi cốt tử về mối quan hệ giữa sản phẩm A và B:
+
+1.  **Support (Độ Phổ Biến):** *"Cặp đôi này có nổi tiếng không?"*
+    * Là tỉ lệ phần trăm hóa đơn chứa cả A và B. Dùng để lọc bỏ những giao dịch quá ngẫu nhiên.
+2.  **Confidence (Độ Chung Thủy):** *"Đã yêu A thì bao nhiêu % sẽ cưới B?"*
+    * Nếu khách mua *Điện thoại*, 90% sẽ mua *Ốp lưng*. Đây là độ tin cậy.
+3.  **Lift (Định Mệnh):** *"Hai đứa sinh ra là để dành cho nhau?"*
+    * Nếu `Lift > 1`: A và B kích thích nhau bán hàng (Ví dụ: Trái tim gỗ & Ngôi sao gỗ).
+    * Nếu `Lift = 1`: Chỉ là người dưng ngược lối, đi cùng nhau do ngẫu nhiên.
 
 ---
 
-## 2. ⚙️ QUY TRÌNH KỸ THUẬT (PIPELINE ARCHITECTURE)
+## 2. ⚙️ KIẾN TRÚC PIPELINE (METHODOLOGY)
 
-Chúng tôi xây dựng một **End-to-End Pipeline** khép kín gồm 4 giai đoạn chính:
+Dữ liệu bán lẻ thực tế rất lớn (~500.000 dòng) và nhiễu. Để xử lý hiệu quả, nhóm không chạy code rời rạc mà xây dựng một **Automated Pipeline** chuẩn công nghiệp:
 
+### 📸 Sơ đồ luồng xử lý (Workflow)
 ```mermaid
-graph TD
-    subgraph P1 [Phase 1: Khai Phá Luật]
-        A[Raw Data UK] -->|Cleaning| B(Transactions)
-        B -->|FP-Growth| C{Luật Kết Hợp}
-    end
+graph LR
+    A[Raw Data] -->|DataCleaner| B(Cleaned Transaction)
+    B -->|BasketPreparer| C{Matrix Transformation}
+    C -->|Apriori/FP-Growth| D[Mining Engine]
+    D -->|Visualization| E[Insights & Strategy]
+    ```
+    # 🛒 PROJECT: GIẢI MÃ "MỎ VÀNG" BÁN LẺ (RETAIL ANALYTICS)
+> **Chủ đề:** Từ thấu hiểu hành vi (Apriori) đến tối ưu hóa lợi nhuận thực tế (High-Utility Mining).
 
-    subgraph P2 [Phase 2: Trích Xuất Đặc Trưng]
-        C -->|Filter Top-K| D[Luật Chất Lượng Cao]
-        D -->|Weighted Encoding| E[Ma Trận Đặc Trưng X]
-    end
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Data Mining](https://img.shields.io/badge/Focus-Association_Rules-orange?style=for-the-badge)](https://rasbt.github.io/mlxtend/)
+[![Performance](https://img.shields.io/badge/Algo-FP_Growth-green?style=for-the-badge)]()
+[![Status](https://img.shields.io/badge/Status-Completed_Excellent-success?style=for-the-badge)]()
 
-    subgraph P3 [Phase 3: Phân Cụm]
-        E -->|Model Selection| F{So Sánh Mô Hình}
-        F -->|K-Means| G[Các Nhóm Khách Hàng]
-    end
-
-    subgraph P4 [Phase 4: Chiến Lược]
-        G -->|Profiling| H[Insight & Dashboard]
-    end
-```
-Chi tiết các bước thực hiện:
-Tiền xử lý & Khai phá: Tái sử dụng module Apriori/FP-Growth để tìm ra các luật có Lift cao và Support đủ mạnh.
-
-Trích xuất đặc trưng (Feature Extraction): Xây dựng vector cho từng khách hàng. Mỗi chiều không gian đại diện cho một luật mua sắm.
-
-Gán nhãn: Sử dụng trọng số Lift thay vì nhị phân 0/1 để phản ánh mức độ quan tâm.
-
-Phân cụm (Clustering): Sử dụng K-Means để gom nhóm. Tối ưu số cụm K bằng phương pháp Silhouette Analysis.
-
-Diễn giải (Interpretation): Phân tích đặc điểm từng cụm (Persona) và đề xuất chiến lược 3C.
 ---
 
-## 3. ⛏️ GIAI ĐOẠN 1: KHAI PHÁ LUẬT KẾT HỢP (MINING)
-*(Đáp ứng Yêu cầu: Chọn luật & Minh chứng chất lượng)*
+## 👥 ĐỘI NGŨ THỰC HIỆN: [TAM ĐẠI QUỶ VƯƠNG]
 
-Để tìm ra các mẫu hành vi mua sắm, chúng tôi không dùng toàn bộ dữ liệu thô mà áp dụng chiến lược lọc thông minh.
-
-### 3.1. Cấu hình thuật toán (Algorithm Configuration)
-Nhóm sử dụng **FP-Growth** (thay vì Apriori để tối ưu tốc độ) với các tham số "Tinh hoa":
-
-| Tham số | Giá trị | Giải thích lý do chọn |
+| Thành viên | Vai trò | Nhiệm vụ chính (Key Responsibilities) |
 | :--- | :--- | :--- |
-| `min_support` | **0.01** | Loại bỏ các giao dịch ngẫu nhiên, quá hiếm gặp (nhiễu). |
-| `metric` | **Lift** | Ưu tiên độ tương quan thực tế. Lift > 1 nghĩa là sản phẩm A kích thích mua B. |
-| `Top-K` | **200** | Chỉ giữ lại 200 luật mạnh nhất để làm đầu vào cho bước phân cụm. |
-
-### 3.2. Minh chứng chất lượng Luật (Proof of Quality)
-Kết quả mining cho thấy các luật tìm được có chỉ số Lift cực cao (>8.0), chứng tỏ mối liên kết sản phẩm rất chặt chẽ:
-
-| Antecedents (Mua...) | Consequents (...Thì mua) | Support | Confidence | Lift | Ý nghĩa kinh doanh |
-| :--- | :--- | :---: | :---: | :---: | :--- |
-| *Herb Marker Parsley* | *Herb Marker Rosemary* | 1.1% | 86% | **63.1** | Khách mua trọn bộ sưu tập thẻ tên cây. |
-| *Wooden Heart* | *Wooden Star* | 1.5% | 77% | **27.2** | Cặp đôi trang trí Noel không thể tách rời. |
-| *Poppy's Playhouse* | *Kitchen Set* | 1.2% | 65% | **8.7** | Bộ đồ chơi trẻ em thường được mua cùng nhau. |
+| **Nguyễn Phương Nam** | **Leader / Data Engineer** | Quản lý Pipeline, Triển khai High-Utility Mining, Tối ưu hóa thuật toán FP-Growth. |
+| **Phạm Văn Huy** | **Data Analyst** | Data Cleaning (Lọc nhiễu), Benchmarking (So sánh hiệu năng Apriori vs FP-Growth). |
+| **Trần Mạnh Tiến** | **Business Analyst** | Visualization (Trực quan hóa), Storytelling & Đề xuất chiến lược kinh doanh (Business Insights). |
 
 ---
 
-## 4. 🧬 GIAI ĐOẠN 2: FEATURE ENGINEERING (CORE TECH)
-*(Đáp ứng Yêu cầu: Trích xuất đặc trưng & So sánh biến thể)*
+## 1. 📖 CÂU CHUYỆN DỮ LIỆU (THE DATA STORY)
 
-Đây là bước **đột phá công nghệ** của dự án: Chuyển đổi từ dữ liệu "Luật sản phẩm" sang "Chân dung người dùng" để máy học có thể hiểu được.
+### 1.1. Khi "Trực Giác" Đánh Lừa Chúng Ta
+Nếu hỏi một chủ tiệm tạp hóa: *"Mặt hàng nào quan trọng nhất?"*, họ sẽ chỉ ngay vào gói mì tôm hoặc chai nước suối. Lý do? Vì nó **bán chạy** (Frequency).
 
-### 4.1. Kỹ thuật Mã hóa (Encoding Strategy)
-Chúng tôi xây dựng vector đặc trưng cho từng khách hàng dựa trên 3 phương pháp (Variants) để tìm ra phương án tối ưu:
+Tuy nhiên, dữ liệu thực tế tại thị trường UK (Online Retail Dataset) đã chứng minh một sự thật khác:
+* Bán 10.000 gói mì (Lãi 200đ) $\rightarrow$ Tổng lãi 2 triệu.
+* Bán 5 set quà Tết (Lãi 500k) $\rightarrow$ Tổng lãi 2.5 triệu.
 
-1.  **Variant A - Baseline (Binary):**
-    * *Logic:* Nếu khách hàng mua thỏa mãn luật $j$ $\rightarrow$ Gán 1, ngược lại $\rightarrow$ 0.
-    * *Nhược điểm:* Đánh đồng luật mạnh (Lift=60) và luật yếu (Lift=2).
-2.  **Variant B - Weighted (Lift-based):**
-    * *Logic:* Nếu khách hàng mua thỏa mãn luật $j$ $\rightarrow$ Gán điểm bằng chính chỉ số **Lift** của luật đó.
-    * *Ưu điểm:* Phản ánh chính xác mức độ "nghiện" của khách hàng đối với các combo sản phẩm.
-3.  **Variant C - Hybrid (Rules + RFM):**
-    * *Logic:* Kết hợp vector luật (đã trọng số) với 3 chỉ số RFM (Recency-Frequency-Monetary) đã chuẩn hóa.
+👉 **Mục tiêu dự án:** Chúng tôi không chỉ dừng lại ở việc tìm ra sản phẩm bán chạy (Lab 1), mà còn đi sâu tìm kiếm những "Mỏ vàng ẩn giấu" mang lại lợi nhuận cao nhất (Lab 2), nơi mà các thuật toán truyền thống thường bỏ qua.
 
-### 4.2. Thực nghiệm & Đánh giá (Evaluation)
-Kết quả chạy thực tế trên tập dữ liệu UK cho thấy sự vượt trội của phương pháp gán trọng số:
+### 1.2. Giải thích Thuật toán (Feynman Style)
+Để hiểu cách chúng tôi "đãi cát tìm vàng", hãy tưởng tượng thuật toán giống như một **người quản lý siêu thị có trí nhớ siêu phàm**.
 
-| Cấu hình (Variant) | Silhouette Score | Đánh giá hiệu năng |
-| :--- | :---: | :--- |
-| 1. Rule-Only (Binary) | 0.704 | Tốt, nhưng độ tách cụm chưa tối đa. |
-| **2. Rule-Only (Weighted Lift)** | **0.855** | **XUẤT SẮC.** Việc gán trọng số Lift giúp mô hình phân tách hành vi cực kỳ rõ nét. |
-| 3. Hybrid (Rules + RFM) | 0.854 | Tương đương Kịch bản 2. Điều này chứng minh **Luật kết hợp** đóng vai trò chính trong việc phân loại, RFM chỉ là bổ trợ. |
+Ông ta ghi nhớ hàng triệu hóa đơn để trả lời 3 câu hỏi cốt tử về mối quan hệ giữa sản phẩm A và B:
 
-👉 **QUYẾT ĐỊNH:** Chọn **Variant B (Weighted Lift)** làm mô hình chính thức.
+1.  **Support (Độ Phổ Biến):** *"Cặp đôi này có nổi tiếng không?"*
+    * Là tỉ lệ phần trăm hóa đơn chứa cả A và B. Dùng để lọc bỏ những giao dịch quá ngẫu nhiên.
+2.  **Confidence (Độ Chung Thủy):** *"Đã yêu A thì bao nhiêu % sẽ cưới B?"*
+    * Nếu khách mua *Điện thoại*, 90% sẽ mua *Ốp lưng*. Đây là độ tin cậy.
+3.  **Lift (Định Mệnh):** *"Hai đứa sinh ra là để dành cho nhau?"*
+    * Nếu `Lift > 1`: A và B kích thích nhau bán hàng (Ví dụ: Trái tim gỗ & Ngôi sao gỗ).
+    * Nếu `Lift = 1`: Chỉ là người dưng ngược lối, đi cùng nhau do ngẫu nhiên.
 
 ---
 
-## 5. 🤖 GIAI ĐOẠN 3: SO SÁNH THUẬT TOÁN PHÂN CỤM
-*(Đáp ứng Yêu cầu Nâng cao: So sánh K-Means, DBSCAN, Agglomerative)*
+## 2. ⚙️ KIẾN TRÚC PIPELINE (METHODOLOGY)
 
-Nhóm không chỉ dùng K-Means mặc định mà còn thử nghiệm các thuật toán khác để đảm bảo tính khách quan:
+Dữ liệu bán lẻ thực tế rất lớn (~500.000 dòng) và nhiễu. Để xử lý hiệu quả, nhóm không chạy code rời rạc mà xây dựng một **Automated Pipeline** chuẩn công nghiệp:
 
-| Thuật toán | Silhouette Score | Số cụm tìm được | Nhận xét mức độ "Actionable" (Khả thi hành động) |
-| :--- | :---: | :---: | :--- |
-| **K-Means (K=3)** | **0.581** | **3** | **CHỌN.** Phân chia nhóm cân bằng, rõ ràng, dễ diễn giải chiến lược Marketing. |
-| Agglomerative | 0.575 | 3 | Kết quả tương tự K-Means nhưng chi phí tính toán cao hơn ($O(n^3)$). |
-| DBSCAN | 0.256 | 49 | **LOẠI.** Do đặc thù dữ liệu thưa (sparse), DBSCAN tạo ra quá nhiều cụm nhiễu (noise/outliers), không thể áp dụng cho chiến dịch đại chúng. |
+### 📸 Sơ đồ luồng xử lý (Workflow)
+```mermaid
+graph LR
+    A[Raw Data] -->|DataCleaner| B(Cleaned Transaction)
+    B -->|BasketPreparer| C{Matrix Transformation}
+    C -->|Apriori/FP-Growth| D[Mining Engine]
+    D -->|Visualization| E[Insights & Strategy]
+    ```
+    ---
 
-> **Kết luận kỹ thuật:** Với dữ liệu hành vi mua sắm dựa trên luật, **K-Means** kết hợp với **Weighted Feature** là giải pháp hiệu quả và cân bằng nhất.
----
+## 3. ⚔️ GIAI ĐOẠN 1: TỐI ƯU HÓA KHAI PHÁ LUẬT (MINING OPTIMIZATION)
+*(Đáp ứng Yêu cầu 1: Trình bày & Minh chứng cách chọn luật)*
 
-## 6. 📊 GIAI ĐOẠN 4: PHÂN TÍCH CHÂN DUNG & CHIẾN LƯỢC (INSIGHTS)
-*(Đáp ứng Yêu cầu: Profiling, Diễn giải & Đề xuất hành động)*
+Để có đầu vào chất lượng cho việc phân cụm, chúng tôi không chọn thuật toán ngẫu nhiên. Nhóm đã thực hiện các bài kiểm tra chịu tải (Stress Test) để tìm ra công cụ tối ưu nhất.
 
-Dựa trên kết quả phân cụm K-Means, chúng tôi đã giải mã được 2 nhóm khách hàng với hành vi trái ngược hoàn toàn:
+### 3.1. Cuộc chiến hiệu năng: Apriori vs. FP-Growth
+Chúng tôi đã đặt hai thuật toán lên bàn cân với bài test **"Độ nhạy tham số"**. Giảm dần ngưỡng `min_support` từ 5% xuống 0.5% để xem thuật toán nào "chịu nhiệt" tốt hơn.
 
-### 🦈 Nhóm 1: "CÁ VOI" (The Whales / VIP) - Cluster 1
-Đây là nhóm khách hàng "tinh hoa" mà mọi doanh nghiệp đều khao khát.
-* **Dữ liệu thực tế:**
-    * **Số lượng:** 124 khách (Chiếm 3.2% dân số).
-    * **Chi tiêu TB:** **£17,365** (Gấp **9.5 lần** nhóm thường).
-    * **Tần suất:** Mua **21 lần/năm** (Rất trung thành).
-* **Hành vi đặc trưng:**
-    * Kích hoạt rất mạnh các luật có **Lift > 50** (Ví dụ: Mua trọn bộ sưu tập *Herb Marker*, *Tea Set*).
-    * Thường mua số lượng lớn (Bulk buying) cho doanh nghiệp hoặc sự kiện.
-* **🎯 Chiến lược hành động:**
-    1.  **VIP Care:** Chăm sóc 1-1, gửi quà tặng sinh nhật cao cấp.
-    2.  **Hard Bundles:** Thiết kế các gói Combo lớn (All-in-one) vì họ không thích mua lẻ tẻ.
-    3.  **Tier-based Discount:** Chiết khấu sâu theo bậc thang doanh số để giữ chân.
+**Kết quả thực nghiệm (Benchmark):**
+| Ngưỡng Support | FP-Growth (Giây) | Apriori (Giây) | Nhận định |
+| :--- | :--- | :--- | :--- |
+| **5.0%** (Dễ) | 0.77s | 0.05s | Apriori nhanh hơn ở dữ liệu thưa. |
+| **1.0%** (Khó) | **3.06s** | **54.88s** | ⚠️ Apriori chậm gấp 18 lần. |
+| **0.5%** (Cực khó) | **8.08s** | *CRASH* | ☠️ Apriori thất bại hoàn toàn. |
 
-### 🐟 Nhóm 2: "KHÁCH PHỔ THÔNG" (Casual Shoppers) - Cluster 0
-Đây là nhóm khách hàng đại chúng, cần chiến lược nuôi dưỡng để chuyển đổi họ thành VIP.
-* **Dữ liệu thực tế:**
-    * **Số lượng:** 3,797 khách (Chiếm 96.8%).
-    * **Chi tiêu TB:** **£1,809**.
-    * **Tần suất:** Mua **4 lần/năm**.
-* **Hành vi đặc trưng:**
-    * Mua sắm ngẫu hứng, rời rạc.
-    * Ít khi mua trọn bộ combo, thường chỉ mua các sản phẩm thiết yếu hoặc quà tặng nhỏ.
-* **🎯 Chiến lược hành động:**
-    1.  **Activation:** Gửi coupon giảm giá nhỏ để kích thích quay lại mua đơn thứ 2.
-    2.  **Cross-sell tại quầy:** Gợi ý các sản phẩm "Best Seller" giá rẻ (dưới £5) tại trang thanh toán để lấp đầy giỏ hàng.
-    3.  **Freeship Threshold:** Gợi ý "Mua thêm X để được Freeship".
+![Benchmark Apriori vs FP-Growth](images/Figure_1.png)
 
----
+> **💡 Quyết định kỹ thuật:** Nhóm chọn **FP-Growth** làm thuật toán chủ đạo cho Mini Project này vì khả năng mở rộng (Scalability) tuyệt vời trên tập dữ liệu lớn.
 
-## 7. 💡 GÓC NHÌN MỞ RỘNG: PHÂN CỤM LUẬT (ADVANCED)
-*(Đáp ứng Yêu cầu Nâng cao: Rule Clustering)*
+### 3.2. Chiến lược lọc luật: Từ "Phổ biến" đến "Giá trị"
+Thay vì chỉ đếm số lượng (Frequency), chúng tôi áp dụng tư duy **High-Utility** (Giá trị cao) để chọn luật:
 
-Ngoài việc phân cụm người, nhóm đã thử nghiệm phân cụm chính các luật mua sắm để tối ưu danh mục sản phẩm. Kết quả tìm ra 3 nhóm luật chiến lược:
+1.  **Bộ lọc "Tinh hoa":**
+    * `min_support = 0.01`: Loại bỏ các giao dịch nhiễu.
+    * `metric = lift`: Ưu tiên độ tương quan thực tế.
+    * `Top-K = 200`: Chỉ giữ lại 200 luật mạnh nhất để giảm chiều dữ liệu (Dimensionality Reduction).
 
-1.  **💎 Nhóm "Kim Cương" (Cluster 2):**
-    * *Đặc điểm:* Chỉ số Lift trung bình **63.1** (Cực khủng).
-    * *Hành động:* **Đóng gói cứng (Hard Bundle)** thành mã sản phẩm (SKU) mới. Ví dụ: Thay vì bán lẻ thì bán luôn "Set 12 hũ gia vị".
-2.  **🥇 Nhóm "Vàng" (Cluster 0):**
-    * *Đặc điểm:* Lift trung bình **14.3**.
-    * *Hành động:* Sử dụng cho tính năng **"Frequently Bought Together"** (Thường được mua cùng) trên website.
-3.  **🥈 Nhóm "Bạc" (Cluster 1):**
-    * *Đặc điểm:* Lift trung bình **8.7**.
-    * *Hành động:* Sử dụng cho mục đích **Discovery** (Khám phá) để tăng sự đa dạng cho giỏ hàng.
+2.  **Minh chứng chất lượng (Evidence):**
+    Các luật được chọn đều có chỉ số **Lift > 8.0**, đại diện cho những hành vi mua sắm "không thể tách rời".
+
+    ![Scatter Plot Rules Selection](images/p.png)
 
 ---
 
-## 8. 📱 DEMO SẢN PHẨM (STREAMLIT DASHBOARD)
-*(Đáp ứng Yêu cầu: Xây dựng Dashboard)*
+## 4. 🧬 GIAI ĐOẠN 2: FEATURE ENGINEERING (TRÍCH XUẤT ĐẶC TRƯNG)
+*(Đáp ứng Yêu cầu 2: Xây dựng & So sánh biến thể đặc trưng)*
 
-Sản phẩm cuối cùng là một Web App tương tác, giúp Marketer dễ dàng lọc và xem dữ liệu mà không cần biết code.
+Đây là bước **quan trọng nhất** để chuyển đổi bài toán từ "Khai phá luật" sang "Học máy (Machine Learning)". Máy tính không hiểu "Bánh mì mua cùng Bơ", nó chỉ hiểu các con số.
 
-### 📸 Ảnh chụp màn hình (Screenshots)
-*(Thay thế bằng ảnh thật từ dự án của bạn)*
-![Dashboard Overview](https://via.placeholder.com/800x400?text=Dashboard+Overview+Screenshot)
-![3D Plot](https://via.placeholder.com/800x400?text=3D+Cluster+Visualization)
+Chúng tôi xây dựng vector đặc trưng cho khách hàng ($C_i$) dựa trên các luật ($R_j$) theo 2 biến thể để so sánh hiệu quả:
 
-### ⚙️ Hướng dẫn cài đặt & Chạy (Installation)
+### Biến thể 1: Baseline (Binary Approach)
+* **Tư duy:** Đơn giản hóa hành vi. Chỉ quan tâm khách có mua theo combo hay không.
+* **Công thức:** $Vector(C_i) = [1, 0, 1, ...]$
+    * Giá trị là `1` nếu khách thỏa mãn tiền đề của luật.
+    * Giá trị là `0` nếu không.
 
+### Biến thể 2: Advanced (Weighted Lift Approach) - **RECOMMENDED**
+* **Tư duy:** Không phải combo nào cũng giá trị như nhau. Combo "Tivi + Loa" (Lift cao) phải quan trọng hơn "Bút + Tẩy" (Lift thấp).
+* **Công thức:** $Vector(C_i) = [Lift(R_1), 0, Lift(R_3), ...]$
+    * Gán trọng số bằng chính độ mạnh (**Lift**) của luật.
+* **Lợi ích:** Giúp thuật toán phân cụm nhận diện rõ nét hơn mức độ "nghiện" mua sắm của khách hàng.
+
+> **📝 Note về RFM:** > Nhóm đã thử nghiệm ghép thêm RFM (Recency-Frequency-Monetary) đã chuẩn hóa (Scaled) vào vector. Tuy nhiên, kết quả thực nghiệm cho thấy biến thể **Weighted Lift** (chỉ dùng luật) cho ra các cụm có hành vi mua sắm sắc nét hơn (Actionable), trong khi RFM có xu hướng bị chi phối quá nhiều bởi doanh số.
+---
+
+## 5. 🧩 GIAI ĐOẠN 3: PHÂN CỤM & SO SÁNH MÔ HÌNH (CLUSTERING)
+*(Đáp ứng Yêu cầu 3, 4, 5: Chọn K, Huấn luyện & So sánh thuật toán)*
+
+Sau khi có ma trận đặc trưng, chúng tôi sử dụng thuật toán **K-Means** để gom nhóm khách hàng.
+
+### 5.1. Tại sao là K-Means? (Algorithm Selection)
+Để đảm bảo tính khách quan (Yêu cầu nâng cao 2.3), nhóm đã so sánh K-Means với DBSCAN và Agglomerative:
+
+| Thuật toán | Silhouette Score | Kết quả thực tế | Đánh giá |
+| :--- | :--- | :--- | :--- |
+| **K-Means** | **0.58** (K=3) | 3 cụm cân bằng | ✅ **CHỌN.** Phân chia rõ ràng, dễ diễn giải (Explainable). |
+| **DBSCAN** | 0.25 | 49 cụm + Nhiễu | ❌ **LOẠI.** Do dữ liệu thưa (Sparse data), DBSCAN coi phần lớn khách hàng là nhiễu (Noise -1). |
+| **Agglomerative**| 0.57 | 3 cụm | ⚠️ Tốt nhưng chi phí tính toán lớn hơn K-Means. |
+
+### 5.2. Tối ưu số cụm (Finding K)
+Sử dụng phương pháp **Elbow Method** và **Silhouette Analysis**, chúng tôi xác định **K=3** là điểm gãy tối ưu, nơi sự tách biệt giữa các nhóm là lớn nhất.
+
+![Elbow Method](images/elbow_k3.png)
+
+---
+
+## 6. 🚀 GIAI ĐOẠN 4: INSIGHT & CHIẾN LƯỢC 3C (BUSINESS STRATEGY)
+*(Đáp ứng Yêu cầu 6: Profiling, Diễn giải & Chiến lược hành động)*
+
+Đây là phần thú vị nhất! Dựa trên tâm cụm (Centroids) và các luật nổi bật, chúng tôi đã "vẽ" lại chân dung 3 nhóm khách hàng và đề xuất chiến lược **3C (Combo - Connection - Care)**.
+
+### 🦈 Cụm 1: "Hội Sưu Tầm Quý Tộc" (The Collectors)
+* **Nhận diện:** Nhóm này kích hoạt rất mạnh các luật liên quan đến **Bộ tách trà Regency (Tea Sets)**.
+* **Hành vi:** Có tâm lý "phải mua cho đủ bộ". Mua màu Xanh $\rightarrow$ Mua thêm Hồng $\rightarrow$ Mua thêm Đỏ.
+* **Chiến lược (C - COMBO):**
+    * 🎁 **Hard Bundles:** Đóng gói sẵn "Set Trà Chiều Hoàng Gia" (đủ 3 màu) với giá ưu đãi.
+    * 🛑 **Stop Selling Single:** Hạn chế bán lẻ từng tách để thúc đẩy mua cả bộ.
+
+### 🍱 Cụm 2: "Dân Văn Phòng Tiện Lợi" (The Functional Buyers)
+* **Nhận diện:** Chi phối bởi các luật về **Túi đựng cơm (Lunch Bags)** và **Túi Jumbo**.
+* **Hành vi:** Mua vì công năng sử dụng (đựng đồ, mang cơm). Mua *Lunch Bag Red* kèm *Lunch Bag Pink* (cho cặp đôi hoặc đổi bữa).
+* **Chiến lược (C - CONNECTION):**
+    * 🛒 **Smart Layout:** Đặt kệ túi Jumbo ngay lối đi chính (Traffic Driver) để thu hút họ, sau đó đặt túi đựng cơm ngay bên cạnh.
+    * 🔄 **Cross-sell:** Gợi ý hộp cơm giữ nhiệt ngay khi họ thêm túi đựng cơm vào giỏ hàng.
+
+### 🎄 Cụm 3: "Tín Đồ Lễ Hội" (Seasonal Decorators)
+* **Nhận diện:** Kích hoạt luật **"Trái Tim Gỗ & Ngôi Sao Gỗ"** (Lift ~27.2).
+* **Hành vi:** Mua theo mùa vụ (Giáng sinh), mua đồ trang trí theo cặp (Tone-sur-tone).
+* **Chiến lược (C - CARE):**
+    * 📅 **Seasonal Campaign:** Gửi email marketing vào tháng 11 với tiêu đề "Mang Giáng Sinh về nhà".
+    * 💡 **Inspiration:** Quay video hướng dẫn trang trí cây thông bằng bộ đôi Tim-Sao để kích thích nhu cầu (DIY Content).
+
+---
+
+## 7. 💡 GÓC NHÌN NÂNG CAO: PHÂN CỤM LUẬT (RULE CLUSTERING)
+*(Đáp ứng Yêu cầu Nâng cao 2.3: Góc nhìn khác)*
+
+Ngoài phân cụm người, nhóm đã thử nghiệm phân cụm chính các **Luật Kết Hợp** (dựa trên Lift, Support, Confidence) để phân loại sản phẩm:
+
+* **Nhóm "Luật Kim Cương" (High Lift):** Các cặp sản phẩm sinh ra là dành cho nhau (như Tim & Sao). $\rightarrow$ **Chiến lược:** Bắt buộc bán kèm (Bundle).
+* **Nhóm "Luật Vàng" (High Support):** Các sản phẩm đại trà. $\rightarrow$ **Chiến lược:** Dùng làm quà tặng khuyến mãi (Traffic Builder).
+
+---
+
+## 8. 📱 DEMO & CÀI ĐẶT (STREAMLIT DASHBOARD)
+*(Đáp ứng Yêu cầu 7: Dashboard)*
+
+Sản phẩm cuối cùng là Web App tương tác giúp Marketer tra cứu dữ liệu.
+
+### 📸 Screenshots
+![Dashboard Overview](images/dashboard_demo.png)
+
+### ⚙️ Hướng dẫn cài đặt
 ```bash
-# Bước 1: Clone repo & Cài đặt thư viện
+# 1. Clone repo & Cài đặt thư viện
 git clone [link-repo-cua-ban]
 pip install -r requirements.txt
 
-# Bước 2: Chạy Pipeline tính toán (Sinh dữ liệu)
+# 2. Chạy Pipeline tính toán (Sinh dữ liệu & Model)
 python run_papermill.py
 
-# Bước 3: Khởi chạy Dashboard
+# 3. Khởi chạy Dashboard
 streamlit run app.py
 ```
