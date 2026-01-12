@@ -55,66 +55,14 @@ graph LR
     B -->|BasketPreparer| C{Matrix Transformation}
     C -->|Apriori/FP-Growth| D[Mining Engine]
     D -->|Visualization| E[Insights & Strategy]
-    ```
-    # 🛒 PROJECT: GIẢI MÃ "MỎ VÀNG" BÁN LẺ (RETAIL ANALYTICS)
-> **Chủ đề:** Từ thấu hiểu hành vi (Apriori) đến tối ưu hóa lợi nhuận thực tế (High-Utility Mining).
+```
+Các Module chính (src/):
+DataCleaner: "Máy lọc sạn". Loại bỏ đơn hàng hủy (Invoice chứa 'C'), xử lý giá trị âm và missing values.
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Data Mining](https://img.shields.io/badge/Focus-Association_Rules-orange?style=for-the-badge)](https://rasbt.github.io/mlxtend/)
-[![Performance](https://img.shields.io/badge/Algo-FP_Growth-green?style=for-the-badge)]()
-[![Status](https://img.shields.io/badge/Status-Completed_Excellent-success?style=for-the-badge)]()
+FPGrowthMiner: "Động cơ chính". Sử dụng cấu trúc cây FP-Tree để nén dữ liệu, giúp chạy nhanh hơn gấp nhiều lần so với Apriori.
 
+Papermill: "Nhạc trưởng". Công cụ giúp tự động hóa việc chạy toàn bộ notebook chỉ bằng 1 câu lệnh.
 ---
-
-## 👥 ĐỘI NGŨ THỰC HIỆN: [TAM ĐẠI QUỶ VƯƠNG]
-
-| Thành viên | Vai trò | Nhiệm vụ chính (Key Responsibilities) |
-| :--- | :--- | :--- |
-| **Nguyễn Phương Nam** | **Leader / Data Engineer** | Quản lý Pipeline, Triển khai High-Utility Mining, Tối ưu hóa thuật toán FP-Growth. |
-| **Phạm Văn Huy** | **Data Analyst** | Data Cleaning (Lọc nhiễu), Benchmarking (So sánh hiệu năng Apriori vs FP-Growth). |
-| **Trần Mạnh Tiến** | **Business Analyst** | Visualization (Trực quan hóa), Storytelling & Đề xuất chiến lược kinh doanh (Business Insights). |
-
----
-
-## 1. 📖 CÂU CHUYỆN DỮ LIỆU (THE DATA STORY)
-
-### 1.1. Khi "Trực Giác" Đánh Lừa Chúng Ta
-Nếu hỏi một chủ tiệm tạp hóa: *"Mặt hàng nào quan trọng nhất?"*, họ sẽ chỉ ngay vào gói mì tôm hoặc chai nước suối. Lý do? Vì nó **bán chạy** (Frequency).
-
-Tuy nhiên, dữ liệu thực tế tại thị trường UK (Online Retail Dataset) đã chứng minh một sự thật khác:
-* Bán 10.000 gói mì (Lãi 200đ) $\rightarrow$ Tổng lãi 2 triệu.
-* Bán 5 set quà Tết (Lãi 500k) $\rightarrow$ Tổng lãi 2.5 triệu.
-
-👉 **Mục tiêu dự án:** Chúng tôi không chỉ dừng lại ở việc tìm ra sản phẩm bán chạy (Lab 1), mà còn đi sâu tìm kiếm những "Mỏ vàng ẩn giấu" mang lại lợi nhuận cao nhất (Lab 2), nơi mà các thuật toán truyền thống thường bỏ qua.
-
-### 1.2. Giải thích Thuật toán (Feynman Style)
-Để hiểu cách chúng tôi "đãi cát tìm vàng", hãy tưởng tượng thuật toán giống như một **người quản lý siêu thị có trí nhớ siêu phàm**.
-
-Ông ta ghi nhớ hàng triệu hóa đơn để trả lời 3 câu hỏi cốt tử về mối quan hệ giữa sản phẩm A và B:
-
-1.  **Support (Độ Phổ Biến):** *"Cặp đôi này có nổi tiếng không?"*
-    * Là tỉ lệ phần trăm hóa đơn chứa cả A và B. Dùng để lọc bỏ những giao dịch quá ngẫu nhiên.
-2.  **Confidence (Độ Chung Thủy):** *"Đã yêu A thì bao nhiêu % sẽ cưới B?"*
-    * Nếu khách mua *Điện thoại*, 90% sẽ mua *Ốp lưng*. Đây là độ tin cậy.
-3.  **Lift (Định Mệnh):** *"Hai đứa sinh ra là để dành cho nhau?"*
-    * Nếu `Lift > 1`: A và B kích thích nhau bán hàng (Ví dụ: Trái tim gỗ & Ngôi sao gỗ).
-    * Nếu `Lift = 1`: Chỉ là người dưng ngược lối, đi cùng nhau do ngẫu nhiên.
-
----
-
-## 2. ⚙️ KIẾN TRÚC PIPELINE (METHODOLOGY)
-
-Dữ liệu bán lẻ thực tế rất lớn (~500.000 dòng) và nhiễu. Để xử lý hiệu quả, nhóm không chạy code rời rạc mà xây dựng một **Automated Pipeline** chuẩn công nghiệp:
-
-### 📸 Sơ đồ luồng xử lý (Workflow)
-```mermaid
-graph LR
-    A[Raw Data] -->|DataCleaner| B(Cleaned Transaction)
-    B -->|BasketPreparer| C{Matrix Transformation}
-    C -->|Apriori/FP-Growth| D[Mining Engine]
-    D -->|Visualization| E[Insights & Strategy]
-    ```
-    ---
 
 ## 3. ⚔️ GIAI ĐOẠN 1: TỐI ƯU HÓA KHAI PHÁ LUẬT (MINING OPTIMIZATION)
 *(Đáp ứng Yêu cầu 1: Trình bày & Minh chứng cách chọn luật)*
