@@ -1,0 +1,12 @@
+# Bỏ qua thư mục môi trường ảo (tùy tên bạn đặt)
+venv/
+env/
+.venv/
+.env
+
+# Bỏ qua file cache của Python (rất quan trọng)
+__pycache__/
+*.pyc
+
+# Bỏ qua dữ liệu mac/windows sinh ra
+.DS_Store
