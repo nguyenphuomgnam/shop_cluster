@@ -135,9 +135,9 @@ Sau khi có ma trận đặc trưng, chúng tôi sử dụng thuật toán **K-M
 | **Agglomerative**| 0.57 | 3 cụm | ⚠️ Tốt nhưng chi phí tính toán lớn hơn K-Means. |
 
 ### 5.2. Tối ưu số cụm (Finding K)
-Sử dụng phương pháp **Elbow Method** và **Silhouette Analysis**, chúng tôi xác định **K=3** là điểm gãy tối ưu, nơi sự tách biệt giữa các nhóm là lớn nhất.
+Sử dụng phương pháp **Elbow Method** và **Silhouette Analysis**, chúng tôi xác định **K=2** là điểm gãy tối ưu, nơi sự tách biệt giữa các nhóm là lớn nhất.
 
-![Elbow Method](images/elbow_k3.png)
+![Elbow Method](images/e.png)
 
 ---
 
@@ -184,8 +184,7 @@ Ngoài phân cụm người, nhóm đã thử nghiệm phân cụm chính các *
 
 Sản phẩm cuối cùng là Web App tương tác giúp Marketer tra cứu dữ liệu.
 
-### 📸 Screenshots
-![Dashboard Overview](images/dashboard_demo.png)
+### 📸 link giao diện
 
 ### ⚙️ Hướng dẫn cài đặt
 ```bash
