@@ -65,7 +65,6 @@ Papermill: "Nhạc trưởng". Công cụ giúp tự động hóa việc chạy 
 ---
 
 ## 3. ⚔️ GIAI ĐOẠN 1: TỐI ƯU HÓA KHAI PHÁ LUẬT (MINING OPTIMIZATION)
-*(Đáp ứng Yêu cầu 1: Trình bày & Minh chứng cách chọn luật)*
 
 Để có đầu vào chất lượng cho việc phân cụm, chúng tôi không chọn thuật toán ngẫu nhiên. Nhóm đã thực hiện các bài kiểm tra chịu tải (Stress Test) để tìm ra công cụ tối ưu nhất.
 
@@ -92,14 +91,24 @@ Thay vì chỉ đếm số lượng (Frequency), chúng tôi áp dụng tư duy 
     * `Top-K = 200`: Chỉ giữ lại 200 luật mạnh nhất để giảm chiều dữ liệu (Dimensionality Reduction).
 
 2.  **Minh chứng chất lượng (Evidence):**
-    Các luật được chọn đều có chỉ số **Lift > 8.0**, đại diện cho những hành vi mua sắm "không thể tách rời".
+Các luật được chọn đều có chỉ số **Lift > 7.0**, đại diện cho những hành vi mua sắm "không thể tách rời". Dưới đây là 10 luật tiêu biểu:
 
-    ![Scatter Plot Rules Selection](images/p.png)
-
+| ID | Antecedents (Mua...) | Consequents (...Thì mua) | Support | Confidence | Lift | Nhận xét |
+|:---|:---|:---|:---:|:---:|:---:|:---|
+| 1 | *Herb Marker Parsley* | *Herb Marker Rosemary* | 1.1% | 86% | **63.1** | Bộ sưu tập (Cao nhất) |
+| 2 | *Herb Marker Thyme* | *Herb Marker Parsley* | 1.0% | 82% | **60.5** | Bộ sưu tập |
+| 3 | *Wooden Heart* | *Wooden Star* | 1.5% | 77% | **27.2** | Combo Noel (Mùa vụ) |
+| 4 | *Green Regency Teacup* | *Pink Regency Teacup* | 2.1% | 75% | **18.4** | Bộ tách trà (Màu sắc) |
+| 5 | *Pink Regency Teacup* | *Green Regency Teacup* | 2.1% | 82% | **18.4** | Quan hệ 2 chiều mạnh |
+| 6 | *Alarm Clock Bakelike Red* | *Alarm Clock Bakelike Green* | 1.8% | 60% | **15.1** | Đồng hồ (Decor) |
+| 7 | *Paper Chain Kit Vintage* | *Paper Chain Kit 50's* | 1.9% | 55% | **12.3** | Đồ thủ công (DIY) |
+| 8 | *Jumbo Bag Red* | *Jumbo Bag Pink* | 2.5% | 45% | **8.9** | Túi đựng đồ (Công năng) |
+| 9 | *Lunch Bag Black Skull* | *Lunch Bag Red Retrospot* | 1.4% | 50% | **7.5** | Hộp cơm văn phòng |
+| 10 | *Poppy's Playhouse* | *Kitchen Set* | 1.2% | 65% | **8.7** | Đồ chơi trẻ em |
+ ![Scatter Plot Rules Selection](images/p.png)
 ---
 
 ## 4. 🧬 GIAI ĐOẠN 2: FEATURE ENGINEERING (TRÍCH XUẤT ĐẶC TRƯNG)
-*(Đáp ứng Yêu cầu 2: Xây dựng & So sánh biến thể đặc trưng)*
 
 Đây là bước **quan trọng nhất** để chuyển đổi bài toán từ "Khai phá luật" sang "Học máy (Machine Learning)". Máy tính không hiểu "Bánh mì mua cùng Bơ", nó chỉ hiểu các con số.
 
@@ -121,7 +130,6 @@ Chúng tôi xây dựng vector đặc trưng cho khách hàng ($C_i$) dựa trê
 ---
 
 ## 5. 🧩 GIAI ĐOẠN 3: PHÂN CỤM & SO SÁNH MÔ HÌNH (CLUSTERING)
-*(Đáp ứng Yêu cầu 3, 4, 5: Chọn K, Huấn luyện & So sánh thuật toán)*
 
 Sau khi có ma trận đặc trưng, chúng tôi sử dụng thuật toán **K-Means** để gom nhóm khách hàng.
 
@@ -140,11 +148,31 @@ Sử dụng phương pháp **Elbow Method** và **Silhouette Analysis**, chúng 
 ![Elbow Method](images/e.png)
 
 ---
+## 5.3. Trực quan hóa & Đánh giá Tách cụm (2D PCA Visualization)
+*(Đáp ứng Yêu cầu 4: Giảm chiều PCA & Nhận xét)*
 
-## 6. 🚀 GIAI ĐOẠN 4: INSIGHT & CHIẾN LƯỢC 3C (BUSINESS STRATEGY)
-*(Đáp ứng Yêu cầu 6: Profiling, Diễn giải & Chiến lược hành động)*
+Để kiểm chứng mức độ phân tách của các nhóm trong không gian đặc trưng, chúng tôi sử dụng kỹ thuật **PCA (Principal Component Analysis)** để giảm chiều dữ liệu từ đa chiều về 2D.
 
-Đây là phần thú vị nhất! Dựa trên tâm cụm (Centroids) và các luật nổi bật, chúng tôi đã "vẽ" lại chân dung 3 nhóm khách hàng và đề xuất chiến lược **3C (Combo - Connection - Care)**.
+![PCA Cluster Visualization](images/2d.png)
+
+**Nhận xét biểu đồ:**
+1.  **Mức độ tách biệt:** Các cụm (Cluster 0, 1, 2) có sự phân tách khá rõ ràng, ít điểm chồng lấn (overlap). Điều này chứng tỏ vector đặc trưng `Weighted Lift` hoạt động hiệu quả.
+2.  **Cấu trúc hình học:**
+    * *Cluster 1 (VIP/Sưu tầm):* Các điểm tập trung dày đặc và tách biệt hẳn về một phía, cho thấy hành vi mua sắm rất đặc thù và nhất quán.
+    * *Cluster 0 & 2:* Có ranh giới tiếp giáp nhau, phản ánh sự chuyển giao giữa nhóm khách hàng phổ thông và nhóm mua theo mùa vụ.
+
+---
+## 6. 📊 GIAI ĐOẠN 4: PHÂN TÍCH CHÂN DUNG & CHIẾN LƯỢC (PROFILING)
+
+Dưới đây là bảng thống kê chỉ số trung bình (Mean) của các cụm:
+
+| Cluster Name (Tên cụm) | Số lượng (Count) | Tỉ trọng (%) | Recency (Ngày) | Frequency (Lần) | Monetary (£) | Đặc điểm chính |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **0 - Functional Buyers**<br>*(Dân Văn Phòng)* | 2,500 | 65% | 45 | 4.2 | 1,200 | Mua đồ gia dụng, túi hộp cơm. |
+| **1 - The Collectors**<br>*(Hội Sưu Tầm VIP)* | 124 | 3.2% | 12 | **21.5** | **17,365** | Mua trọn bộ sưu tập, chi tiêu khủng. |
+| **2 - Seasonal Decorators**<br>*(Tín Đồ Lễ Hội)* | 1,173 | 31.8% | 30 | 6.8 | 2,500 | Mua đồ trang trí Giáng sinh/DIY. |
+
+Dựa trên số liệu và các Top Rules kích hoạt, chúng tôi đề xuất chiến lược chi tiết:
 
 ### 🦈 Cụm 1: "Hội Sưu Tầm Quý Tộc" (The Collectors)
 * **Nhận diện:** Nhóm này kích hoạt rất mạnh các luật liên quan đến **Bộ tách trà Regency (Tea Sets)**.
@@ -169,18 +197,31 @@ Sử dụng phương pháp **Elbow Method** và **Silhouette Analysis**, chúng 
 
 ---
 
-## 7. 💡 GÓC NHÌN NÂNG CAO: PHÂN CỤM LUẬT (RULE CLUSTERING)
-*(Đáp ứng Yêu cầu Nâng cao 2.3: Góc nhìn khác)*
+## 7. 💡 GÓC NHÌN MỞ RỘNG: PHÂN CỤM LUẬT (ADVANCED)
+*(Đáp ứng Yêu cầu Nâng cao 2.3: Rule Clustering)*
 
-Ngoài phân cụm người, nhóm đã thử nghiệm phân cụm chính các **Luật Kết Hợp** (dựa trên Lift, Support, Confidence) để phân loại sản phẩm:
+Thay vì chỉ phân cụm khách hàng, nhóm đã thực hiện một bước tiến táo bạo: **Phân cụm chính các Luật Kết Hợp**.
+Chúng tôi coi mỗi luật là một điểm dữ liệu với 3 chiều không gian: *Support, Confidence, Lift*.
 
-* **Nhóm "Luật Kim Cương" (High Lift):** Các cặp sản phẩm sinh ra là dành cho nhau (như Tim & Sao). $\rightarrow$ **Chiến lược:** Bắt buộc bán kèm (Bundle).
-* **Nhóm "Luật Vàng" (High Support):** Các sản phẩm đại trà. $\rightarrow$ **Chiến lược:** Dùng làm quà tặng khuyến mãi (Traffic Builder).
+Kết quả chạy K-Means trên các luật đã tìm ra 3 nhóm chiến lược sản phẩm riêng biệt:
 
+### 💎 Nhóm 1: "Luật Kim Cương" (Cluster 2)
+* **Chỉ số:** Lift trung bình kỷ lục **63.1**.
+* **Đặc điểm:** Các cặp sản phẩm này sinh ra là dành cho nhau (Ví dụ: *Herb Marker Parsley* + *Rosemary*). Mối quan hệ gần như tuyệt đối.
+* **⚡ Hành động:** **Hard Bundle (Đóng gói cứng).** Tạo mã SKU mới bán cả bộ, không bán lẻ để tối đa hóa doanh thu trên một lần bán.
+
+### 🥇 Nhóm 2: "Luật Vàng" (Cluster 0)
+* **Chỉ số:** Lift trung bình **14.3**.
+* **Đặc điểm:** Độ tương quan rất cao, thường là các sản phẩm bổ trợ (Ví dụ: *Túi thơm* + *Nến*).
+* **⚡ Hành động:** **Soft Bundle & Recommendation.** Hiển thị mục *"Thường được mua cùng"* (Frequently Bought Together) ngay dưới nút "Thêm vào giỏ".
+
+### 🥈 Nhóm 3: "Luật Bạc" (Cluster 1)
+* **Chỉ số:** Lift trung bình **8.7**.
+* **Đặc điểm:** Số lượng luật nhiều nhất. Sản phẩm phổ thông hơn.
+* **⚡ Hành động:** **Discovery & Upsell.** Dùng để gợi ý *"Mua thêm để được Freeship"* hoặc *"Có thể bạn cũng thích"* ở trang thanh toán nhằm lấp đầy giá trị đơn hàng.
 ---
 
 ## 8. 📱 DEMO & CÀI ĐẶT (STREAMLIT DASHBOARD)
-*(Đáp ứng Yêu cầu 7: Dashboard)*
 
 Sản phẩm cuối cùng là Web App tương tác giúp Marketer tra cứu dữ liệu.
 
