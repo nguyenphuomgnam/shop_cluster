@@ -153,7 +153,7 @@ Sử dụng phương pháp **Elbow Method** và **Silhouette Analysis**, chúng 
 
 Để kiểm chứng mức độ phân tách của các nhóm trong không gian đặc trưng, chúng tôi sử dụng kỹ thuật **PCA (Principal Component Analysis)** để giảm chiều dữ liệu từ đa chiều về 2D.
 
-![PCA Cluster Visualization](images/2d.png)
+![PCA Cluster Visualization](images/pca_2d_plot.png)
 
 **Nhận xét biểu đồ:**
 1.  **Mức độ tách biệt:** Các cụm (Cluster 0, 1, 2) có sự phân tách khá rõ ràng, ít điểm chồng lấn (overlap). Điều này chứng tỏ vector đặc trưng `Weighted Lift` hoạt động hiệu quả.
