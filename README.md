@@ -105,8 +105,9 @@ Các luật được chọn đều có chỉ số **Lift > 7.0**, đại diện 
 | 8 | *Jumbo Bag Red* | *Jumbo Bag Pink* | 2.5% | 45% | **8.9** | Túi đựng đồ (Công năng) |
 | 9 | *Lunch Bag Black Skull* | *Lunch Bag Red Retrospot* | 1.4% | 50% | **7.5** | Hộp cơm văn phòng |
 | 10 | *Poppy's Playhouse* | *Kitchen Set* | 1.2% | 65% | **8.7** | Đồ chơi trẻ em |
- ![Scatter Plot Rules Selection](images/p.png)
+ 
 ---
+![Scatter Plot Rules Selection](images/p.png)
 
 ## 4. 🧬 GIAI ĐOẠN 2: FEATURE ENGINEERING (TRÍCH XUẤT ĐẶC TRƯNG)
 
@@ -198,7 +199,6 @@ Dựa trên số liệu và các Top Rules kích hoạt, chúng tôi đề xuấ
 ---
 
 ## 7. 💡 GÓC NHÌN MỞ RỘNG: PHÂN CỤM LUẬT (ADVANCED)
-*(Đáp ứng Yêu cầu Nâng cao 2.3: Rule Clustering)*
 
 Thay vì chỉ phân cụm khách hàng, nhóm đã thực hiện một bước tiến táo bạo: **Phân cụm chính các Luật Kết Hợp**.
 Chúng tôi coi mỗi luật là một điểm dữ liệu với 3 chiều không gian: *Support, Confidence, Lift*.
