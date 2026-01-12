@@ -163,39 +163,44 @@ Sử dụng phương pháp **Elbow Method** và **Silhouette Analysis**, chúng 
     * *Cluster 0 & 2:* Có ranh giới tiếp giáp nhau, phản ánh sự chuyển giao giữa nhóm khách hàng phổ thông và nhóm mua theo mùa vụ.
 
 ---
-## 6. 📊 GIAI ĐOẠN 4: PHÂN TÍCH CHÂN DUNG & CHIẾN LƯỢC (PROFILING)
+## 6. 📊 GIAI ĐOẠN 4: PHÂN TÍCH CHÂN DUNG & CHIẾN LƯỢC (INSIGHTS)
 
-Dưới đây là bảng thống kê chỉ số trung bình (Mean) của các cụm:
+Dựa trên kết quả phân cụm và các luật kết hợp nổi bật, chúng tôi đã vẽ lại chân dung khách hàng chi tiết qua bảng số liệu sau:
 
-| Cluster Name (Tên cụm) | Số lượng (Count) | Tỉ trọng (%) | Recency (Ngày) | Frequency (Lần) | Monetary (£) | Đặc điểm chính |
+### 6.1. Bảng thống kê chỉ số cụm (Cluster Profiling)
+
+| Cluster Name (Tên cụm) | Số lượng | Tỉ trọng | Recency (Ngày) | Frequency (Lần) | Monetary (£) | Đặc điểm chính |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **0 - Functional Buyers**<br>*(Dân Văn Phòng)* | 2,500 | 65% | 45 | 4.2 | 1,200 | Mua đồ gia dụng, túi hộp cơm. |
-| **1 - The Collectors**<br>*(Hội Sưu Tầm VIP)* | 124 | 3.2% | 12 | **21.5** | **17,365** | Mua trọn bộ sưu tập, chi tiêu khủng. |
-| **2 - Seasonal Decorators**<br>*(Tín Đồ Lễ Hội)* | 1,173 | 31.8% | 30 | 6.8 | 2,500 | Mua đồ trang trí Giáng sinh/DIY. |
+| **0 - Functional Buyers**<br>*(Dân Văn Phòng)* | 2,500 | 65% | 45 | 4.2 | 1,200 | Mua đồ gia dụng, túi hộp cơm, giá trị đơn trung bình. |
+| **1 - The Collectors**<br>*(Hội Sưu Tầm VIP)* | 124 | 3.2% | 12 | **21.5** | **17,365** | Mua trọn bộ sưu tập, tần suất mua dày đặc, chi tiêu khủng. |
+| **2 - Seasonal Decorators**<br>*(Tín Đồ Lễ Hội)* | 1,173 | 31.8% | 30 | 6.8 | 2,500 | Mua đồ trang trí Giáng sinh/DIY, mua theo mùa vụ. |
 
-Dựa trên số liệu và các Top Rules kích hoạt, chúng tôi đề xuất chiến lược chi tiết:
+---
 
-### 🦈 Cụm 1: "Hội Sưu Tầm Quý Tộc" (The Collectors)
-* **Nhận diện:** Nhóm này kích hoạt rất mạnh các luật liên quan đến **Bộ tách trà Regency (Tea Sets)**.
-* **Hành vi:** Có tâm lý "phải mua cho đủ bộ". Mua màu Xanh $\rightarrow$ Mua thêm Hồng $\rightarrow$ Mua thêm Đỏ.
+### 6.2. Chiến lược 3C (Combo - Connection - Care)
+
+Từ các đặc điểm trên, nhóm đề xuất chiến lược marketing cụ thể cho từng nhóm:
+
+#### 🦈 Cụm 1: "Hội Sưu Tầm Quý Tộc" (The Collectors / VIP)
+* **Nhận diện:** Nhóm này kích hoạt rất mạnh các luật liên quan đến **Bộ tách trà Regency (Tea Sets)** và **Thẻ tên cây (Herb Markers)**. Hành vi mua sắm mang tính "sưu tầm đủ bộ".
 * **Chiến lược (C - COMBO):**
-    * 🎁 **Hard Bundles:** Đóng gói sẵn "Set Trà Chiều Hoàng Gia" (đủ 3 màu) với giá ưu đãi.
-    * 🛑 **Stop Selling Single:** Hạn chế bán lẻ từng tách để thúc đẩy mua cả bộ.
+    * 🎁 **Hard Bundles:** Đóng gói sẵn "Set Trà Chiều Hoàng Gia" (đủ 3 màu Green/Pink/Roses) với giá ưu đãi hơn 10% so với mua lẻ.
+    * 🛑 **Stop Selling Single:** Trong các đợt khan hàng, ưu tiên giữ hàng cho các set combo thay vì bán lẻ.
+    * 💎 **VIP Care:** Thiết kế chương trình Membership riêng, gửi catalogue sản phẩm mới trước 1 tuần.
 
-### 🍱 Cụm 2: "Dân Văn Phòng Tiện Lợi" (The Functional Buyers)
-* **Nhận diện:** Chi phối bởi các luật về **Túi đựng cơm (Lunch Bags)** và **Túi Jumbo**.
-* **Hành vi:** Mua vì công năng sử dụng (đựng đồ, mang cơm). Mua *Lunch Bag Red* kèm *Lunch Bag Pink* (cho cặp đôi hoặc đổi bữa).
+#### 🍱 Cụm 2: "Dân Văn Phòng Tiện Lợi" (The Functional Buyers)
+* **Nhận diện:** Chi phối bởi các luật về **Túi đựng cơm (Lunch Bags)** và **Túi Jumbo**. Đây là nhóm khách hàng thực dụng.
+* **Hành vi:** Mua *Lunch Bag Red* thường kèm *Lunch Bag Pink* (mua cho cặp đôi hoặc thay đổi).
 * **Chiến lược (C - CONNECTION):**
-    * 🛒 **Smart Layout:** Đặt kệ túi Jumbo ngay lối đi chính (Traffic Driver) để thu hút họ, sau đó đặt túi đựng cơm ngay bên cạnh.
-    * 🔄 **Cross-sell:** Gợi ý hộp cơm giữ nhiệt ngay khi họ thêm túi đựng cơm vào giỏ hàng.
+    * 🛒 **Smart Layout:** Đặt kệ túi Jumbo ngay lối đi chính (Traffic Driver) để thu hút họ.
+    * 🔄 **Cross-sell:** Gợi ý hộp cơm giữ nhiệt hoặc bình nước ngay khi họ thêm túi đựng cơm vào giỏ hàng (trên website và tại quầy).
 
-### 🎄 Cụm 3: "Tín Đồ Lễ Hội" (Seasonal Decorators)
+#### 🎄 Cụm 3: "Tín Đồ Lễ Hội" (Seasonal Decorators)
 * **Nhận diện:** Kích hoạt luật **"Trái Tim Gỗ & Ngôi Sao Gỗ"** (Lift ~27.2).
-* **Hành vi:** Mua theo mùa vụ (Giáng sinh), mua đồ trang trí theo cặp (Tone-sur-tone).
+* **Hành vi:** Mua theo mùa vụ (Giáng sinh), rất chú trọng tính thẩm mỹ và sự đồng bộ (Tone-sur-tone).
 * **Chiến lược (C - CARE):**
-    * 📅 **Seasonal Campaign:** Gửi email marketing vào tháng 11 với tiêu đề "Mang Giáng Sinh về nhà".
-    * 💡 **Inspiration:** Quay video hướng dẫn trang trí cây thông bằng bộ đôi Tim-Sao để kích thích nhu cầu (DIY Content).
-
+    * 📅 **Seasonal Campaign:** Gửi email marketing vào đầu tháng 11 với tiêu đề "Mang Giáng Sinh về nhà".
+    * 💡 **Inspiration Content:** Quay video hướng dẫn trang trí cây thông bằng bộ đôi Tim-Sao (DIY) để kích thích nhu cầu mua cả set.
 ---
 
 ## 7. 💡 GÓC NHÌN MỞ RỘNG: PHÂN CỤM LUẬT (ADVANCED)
