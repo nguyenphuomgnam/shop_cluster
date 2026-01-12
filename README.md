@@ -150,7 +150,6 @@ Sử dụng phương pháp **Elbow Method** và **Silhouette Analysis**, chúng 
 
 ---
 ## 5.3. Trực quan hóa & Đánh giá Tách cụm (2D PCA Visualization)
-*(Đáp ứng Yêu cầu 4: Giảm chiều PCA & Nhận xét)*
 
 Để kiểm chứng mức độ phân tách của các nhóm trong không gian đặc trưng, chúng tôi sử dụng kỹ thuật **PCA (Principal Component Analysis)** để giảm chiều dữ liệu từ đa chiều về 2D.
 
